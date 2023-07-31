@@ -1,24 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import React from "react";
+import { useGetBreweriesWithLimitQuery } from "./features/restaurants/restaurantApiSlice";
+import RestaurantCard from "./components/RestaurantCard";
+import { overlayState } from "./features/overlayBackground/overlayBackgroundSlice";
+import { useSelector } from "react-redux";
+import OverlayBackground from "./features/overlayBackground/OverlayBackground";
 
 function App() {
+  const { data, isLoading } = useGetBreweriesWithLimitQuery(50);
+
+  const isOverlay = useSelector(overlayState);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {isOverlay && <OverlayBackground />}
+
+      {isLoading
+        ? "loading"
+        : data.map((restaurant) => (
+            <RestaurantCard key={restaurant.id} r={restaurant} />
+          ))}
+    </>
   );
 }
 
