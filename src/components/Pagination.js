@@ -7,7 +7,7 @@ export const Pagination = ({ totalItems, itemsPerPage, paginate }) => {
   for (let i = 1; i <= calculatedPageNumbers; i++) {
     pageNumbers.push(i);
   }
-  console.log(totalItems, itemsPerPage, calculatedPageNumbers, pageNumbers);
+  
   return (
     <nav>
       {pageNumbers.map((number) => (

@@ -1,22 +1,25 @@
 import { useState } from "react";
 import FavoriteButton from "../features/favoriteButton/FavoriteButton";
-import RestaurantOverlay from "./RestaurantOverlay";
+import RestaurantOverlay from "../features/modal/Modal";
 import { backgroundOverlayReducer } from "../features/overlayBackground/overlayBackgroundSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { showModalReducer, showModalState } from "../features/modal/modalSlice";
 export default function RestaurantCard({ r }) {
-  const { name, city } = r;
-  const [isVisible, setIsVisible] = useState(false);
+  const { name, city ,id} = r;
   const dispatch = useDispatch();
+  const isModalVisible = useSelector(showModalState)
   function handleOpenOverlay() {
-    setIsVisible(true);
+    dispatch(showModalReducer({isVisible: true, id:id}))
     dispatch(backgroundOverlayReducer(true));
   }
+  console.log(isModalVisible)
   return (
     <>
+    
       <section style={{ border: "2px solid black", margin: "20px" }}>
-        {isVisible && (
+        {isModalVisible[id] && (
           <>
-            <RestaurantOverlay setIsVisible={setIsVisible} restaurant={r} />
+            <RestaurantOverlay  restaurant={r} />
           </>
         )}
         <h4> {name}</h4>
