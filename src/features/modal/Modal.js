@@ -1,12 +1,14 @@
 import { useDispatch } from "react-redux";
-import { backgroundOverlayReducer } from "../features/overlayBackground/overlayBackgroundSlice";
+import { backgroundOverlayReducer } from "../overlayBackground/overlayBackgroundSlice";
+import { showModalReducer } from "./modalSlice";
 
-export default function RestaurantOverlay({ restaurant, setIsVisible }) {
+export default function Modal({ restaurant }) {
   const dispatch = useDispatch();
-  function handleCloseOverlay() {
-    setIsVisible(false);
-    dispatch(backgroundOverlayReducer(false));
+ function handleCloseOverlay() {
+  dispatch(showModalReducer({isVisible: false, id:restaurant.id}))
+  dispatch(backgroundOverlayReducer(false));
   }
+
   return (
     <>
       <div
@@ -28,3 +30,4 @@ export default function RestaurantOverlay({ restaurant, setIsVisible }) {
     </>
   );
 }
+
